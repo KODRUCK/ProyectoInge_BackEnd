@@ -156,6 +156,20 @@ module.exports.CitasController = {
 
         }
     },
+    recoveryPass: (req, res) => {
+        const { params } = req;
+        data = params.id;
+
+        resultsql(`password_Recovery '${data}'`).then((result) => {
+            Response.success(res, 200, "Citas Registradas", "Su cita ha sido agendada con éxtio");
+            for (let i = 0; result != null && i < result.length; i++) {
+                Email.sendEmail( `Usted a solicitado un cambio de contraseña, la nueva contraseña es: `+result[i].newPassword,result[i].correo, 'Recuperacion de contraseña',)
+            }
+           
+        }).catch((message) => {
+            console.log(message);
+        });
+    },
     book: (req, res) => {
         const { body } = req;
         body.date = body.date.replace("am", "");
