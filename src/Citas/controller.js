@@ -8,6 +8,10 @@ module.exports.CitasController = {
     getCitas: (req, res) => {
         const { params } = req
         data = params.id.split(',');
+        if(data[2] == null || data[2].replace(' ','') === '' || data[0] == null || data[0].replace(' ','') === ''){
+            console.log('Fecha invalida');
+            return;
+        }
         try {
             resultsql(`getHoursDatesByDateByBarber '${data[2]}',${data[0]}`).then((result) => {
                 if(data[2] == null || data[2].replace(' ','') === ''){
@@ -156,20 +160,7 @@ module.exports.CitasController = {
 
         }
     },
-    recoveryPass: (req, res) => {
-        const { params } = req;
-        data = params.id;
-
-        resultsql(`password_Recovery '${data}'`).then((result) => {
-            Response.success(res, 200, "Citas Registradas", "Su cita ha sido agendada con éxtio");
-            for (let i = 0; result != null && i < result.length; i++) {
-                Email.sendEmail( `Usted a solicitado un cambio de contraseña, la nueva contraseña es: `+result[i].newPassword,result[i].correo, 'Recuperacion de contraseña',)
-            }
-           
-        }).catch((message) => {
-            console.log(message);
-        });
-    },
+    
     book: (req, res) => {
         const { body } = req;
         body.date = body.date.replace("am", "");

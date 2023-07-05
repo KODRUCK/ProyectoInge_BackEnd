@@ -9,7 +9,6 @@ module.exports.CitasAPI = (app) => {
     .get('/userAttendaceDetail/:id', CitasController.getUserAttendaceDetail)
     .get('/horaCita', CitasController.getHoraCita)
     .get('/users', CitasController.getUsers)
-    .get('/recuperarContrasenna/:id', CitasController.recoveryPass)
     .get('/:id', CitasController.getCitas)
     
 
